@@ -8,7 +8,7 @@ class TPQueue {
   struct Node {
     T data;
     Node* next;
-    Node(const T& value) : data(value), next(nullptr) {}
+    explicit Node(const T& value) : data(value), next(nullptr) {}
   };
 
   Node* head;
@@ -41,7 +41,7 @@ class TPQueue {
 
   T pop() {
     if (!head) {
-      throw std::out_of_rangeХ{};
+      throw std::out_of_range{};
     }
     Node* temp = head;
     T result = head->data;
@@ -49,11 +49,6 @@ class TPQueue {
     delete temp;
     return result;
   }
-};
-
-struct SYM {
-  char ch;
-  int prior;
 };
 
 #endif  // INCLUDE_TPQUEUE_H_
