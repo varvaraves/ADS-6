@@ -2,9 +2,53 @@
 #ifndef INCLUDE_TPQUEUE_H_
 #define INCLUDE_TPQUEUE_H_
 
-template<typename T>
+template <typename T>
 class TPQueue {
-  // реализация шаблона очереди с приоритетом на связанном списке
+ private:
+  struct Node {
+    T data;
+    Node* next;
+    Node(const T& value) : data(value), next(nullptr) {}
+  };
+
+  Node* head;
+
+ public:
+  TPQueue() : head(nullptr) {}
+
+  ~TPQueue() {
+    while (head) {
+      Node* temp = head;
+      head = head->next;
+      delete temp;
+    }
+  }
+
+  void push(const T& value) {
+    Node* newNode = new Node(value);
+    if (!head || value.prior > head->data.prior) {
+      newNode->next = head;
+      head = newNode;
+    } else {
+      Node* current = head;
+      while (current->next && current->next->data.prior >= value.prior) {
+        current = current->next;
+      }
+      newNode->next = current->next;
+      current->next = newNode;
+    }
+  }
+
+  T pop() {
+    if (!head) {
+      throw std::out_of_rangeХ{};
+    }
+    Node* temp = head;
+    T result = head->data;
+    head = head->next;
+    delete temp;
+    return result;
+  }
 };
 
 struct SYM {
@@ -13,3 +57,4 @@ struct SYM {
 };
 
 #endif  // INCLUDE_TPQUEUE_H_
+
